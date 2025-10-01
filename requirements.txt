@@ -1,0 +1,48 @@
+# Peers Consulting & Technology News Agent - Dependencies
+# Optimized version based on lessons learned
+
+# Web Framework (REQUIRED)
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# Web Scraping (REQUIRED)
+requests==2.31.0
+beautifulsoup4==4.12.2
+lxml==4.9.3
+feedparser==6.0.10
+
+# Configuration (REQUIRED)
+PyYAML==6.0.1
+python-dotenv==1.0.0
+
+# Logging (REQUIRED)
+loguru==0.7.2
+
+# Date/Time (REQUIRED)
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Deployment (REQUIRED)
+gunicorn==21.2.0
+
+# HTTP/Security (REQUIRED)
+urllib3==2.1.0
+certifi==2023.11.17
+
+# System Utilities (REQUIRED)
+click==8.1.7
+
+# JSON Processing (OPTIONAL)
+jsonschema==4.20.0
+
+# REMOVED PROBLEMATIC DEPENDENCIES:
+# - smtplib2 (doesn't exist!)
+# - pandas (heavy, not essential)
+# - numpy (heavy, not essential)
+# - nltk (not used)
+# - textblob (not used)
+# - pathlib2 (Python 3.11 has native pathlib)
+# - typing-extensions (Python 3.11 has native typing)
+
+# EMAIL: Using external webhook service (no SMTP dependencies needed)
+

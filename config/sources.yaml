@@ -1,0 +1,284 @@
+# News Sources Configuration for Consultancy News Agent
+# Specialized sources for consultancy industry news
+
+sources:
+  # Specialized Consultancy Media
+  consulting_magazine:
+    name: "Consulting Magazine"
+    url: "https://www.consultingmag.com"
+    type: "rss"
+    rss_url: "https://www.consultingmag.com/feed"
+    enabled: true
+    priority: "high"
+    region: "global"
+    keywords: ["consulting", "consultancy", "advisory", "management consulting"]
+    
+  vault_consulting:
+    name: "Vault Consulting"
+    url: "https://www.vault.com/industries/consulting"
+    type: "web"
+    enabled: true
+    priority: "high"
+    region: "global"
+    selectors:
+      articles: ".article-item"
+      title: ".article-title"
+      link: ".article-link"
+      date: ".article-date"
+    
+  management_consulted:
+    name: "Management Consulted"
+    url: "https://managementconsulted.com/news"
+    type: "web"
+    enabled: true
+    priority: "high"
+    region: "global"
+    keywords: ["mckinsey", "bcg", "bain", "deloitte", "pwc", "ey", "kpmg"]
+    
+  # Financial and Business Media
+  financial_times:
+    name: "Financial Times"
+    url: "https://www.ft.com"
+    type: "rss"
+    rss_url: "https://www.ft.com/rss/home"
+    enabled: true
+    priority: "high"
+    region: "global"
+    keywords: ["consulting", "advisory", "mckinsey", "bcg", "bain", "deloitte", "pwc", "ey", "kpmg", "accenture"]
+    
+  wall_street_journal:
+    name: "Wall Street Journal"
+    url: "https://www.wsj.com"
+    type: "rss"
+    rss_url: "https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml"
+    enabled: true
+    priority: "high"
+    region: "us"
+    keywords: ["consulting", "consultancy", "advisory services"]
+    
+  bloomberg:
+    name: "Bloomberg"
+    url: "https://www.bloomberg.com"
+    type: "rss"
+    rss_url: "https://feeds.bloomberg.com/markets/news.rss"
+    enabled: true
+    priority: "high"
+    region: "global"
+    keywords: ["consulting", "advisory", "professional services"]
+    
+  reuters_business:
+    name: "Reuters Business"
+    url: "https://www.reuters.com/business"
+    type: "rss"
+    rss_url: "https://www.reuters.com/business/feed"
+    enabled: true
+    priority: "high"
+    region: "global"
+    keywords: ["consulting", "consultancy", "management consulting"]
+    
+  # Business and Corporate News
+  harvard_business_review:
+    name: "Harvard Business Review"
+    url: "https://hbr.org"
+    type: "rss"
+    rss_url: "https://feeds.hbr.org/harvardbusiness"
+    enabled: true
+    priority: "medium"
+    region: "global"
+    keywords: ["consulting", "strategy", "management", "advisory"]
+    
+  fortune:
+    name: "Fortune"
+    url: "https://fortune.com"
+    type: "rss"
+    rss_url: "https://fortune.com/feed"
+    enabled: true
+    priority: "medium"
+    region: "us"
+    keywords: ["consulting", "consultancy", "professional services"]
+    
+  # LinkedIn and Professional Networks
+  linkedin_news:
+    name: "LinkedIn News"
+    url: "https://www.linkedin.com/news"
+    type: "web"
+    enabled: true
+    priority: "medium"
+    region: "global"
+    keywords: ["consulting", "consultancy", "advisory", "management consulting"]
+    selectors:
+      articles: ".news-article"
+      title: ".news-title"
+      link: ".news-link"
+    
+  # Firm-Specific Sources
+  mckinsey_insights:
+    name: "McKinsey Insights"
+    url: "https://www.mckinsey.com/insights"
+    type: "rss"
+    rss_url: "https://www.mckinsey.com/insights/rss"
+    enabled: true
+    priority: "medium"
+    region: "global"
+    firm_specific: "McKinsey & Company"
+    
+  bcg_insights:
+    name: "BCG Insights"
+    url: "https://www.bcg.com/insights"
+    type: "web"
+    enabled: true
+    priority: "medium"
+    region: "global"
+    firm_specific: "Boston Consulting Group"
+    
+  deloitte_insights:
+    name: "Deloitte Insights"
+    url: "https://www2.deloitte.com/insights"
+    type: "web"
+    enabled: true
+    priority: "medium"
+    region: "global"
+    firm_specific: "Deloitte"
+    
+  # Regional Sources - US
+  american_lawyer:
+    name: "American Lawyer"
+    url: "https://www.law.com/americanlawyer"
+    type: "rss"
+    rss_url: "https://www.law.com/americanlawyer/rss"
+    enabled: true
+    priority: "medium"
+    region: "us"
+    keywords: ["consulting", "advisory", "legal consulting"]
+    
+  crains_business:
+    name: "Crain's Business"
+    url: "https://www.crainsnewyork.com"
+    type: "web"
+    enabled: true
+    priority: "low"
+    region: "us"
+    keywords: ["consulting", "consultancy", "professional services"]
+    
+  # Regional Sources - Europe
+  financial_news_london:
+    name: "Financial News (London)"
+    url: "https://www.fnlondon.com"
+    type: "web"
+    enabled: true
+    priority: "medium"
+    region: "europe"
+    keywords: ["consulting", "advisory", "financial services"]
+    
+  handelsblatt:
+    name: "Handelsblatt"
+    url: "https://www.handelsblatt.com"
+    type: "web"
+    enabled: true
+    priority: "medium"
+    region: "europe"
+    keywords: ["beratung", "consulting", "unternehmensberatung"]
+    language: "de"
+    
+  les_echos:
+    name: "Les Echos"
+    url: "https://www.lesechos.fr"
+    type: "web"
+    enabled: true
+    priority: "medium"
+    region: "europe"
+    keywords: ["conseil", "consulting", "cabinet de conseil"]
+    language: "fr"
+    
+  # Industry Publications
+  strategy_business:
+    name: "Strategy+Business"
+    url: "https://www.strategy-business.com"
+    type: "rss"
+    rss_url: "https://www.strategy-business.com/feed"
+    enabled: true
+    priority: "medium"
+    region: "global"
+    keywords: ["strategy", "consulting", "management"]
+    
+  # Technology and Digital Consulting
+  cio_magazine:
+    name: "CIO Magazine"
+    url: "https://www.cio.com"
+    type: "rss"
+    rss_url: "https://www.cio.com/feed"
+    enabled: true
+    priority: "low"
+    region: "global"
+    keywords: ["it consulting", "digital transformation", "technology consulting"]
+    
+  # Government and Public Sector
+  government_executive:
+    name: "Government Executive"
+    url: "https://www.govexec.com"
+    type: "rss"
+    rss_url: "https://www.govexec.com/rss/all"
+    enabled: true
+    priority: "low"
+    region: "us"
+    keywords: ["government consulting", "public sector", "federal consulting"]
+
+# Global Configuration
+config:
+  # Collection settings
+  max_articles_per_source: 50
+  collection_timeout: 30
+  request_delay: 2
+  max_retries: 3
+  
+  # Filtering settings
+  min_relevance_score: 6.0
+  date_range_days: 10
+  
+  # Keywords for consultancy relevance
+  consultancy_keywords:
+    - "consulting"
+    - "consultancy" 
+    - "advisory"
+    - "management consulting"
+    - "strategy consulting"
+    - "digital consulting"
+    - "transformation"
+    - "professional services"
+    
+  # Firm names for detection
+  firm_keywords:
+    - "mckinsey"
+    - "bcg"
+    - "boston consulting"
+    - "bain"
+    - "deloitte"
+    - "pwc"
+    - "pricewaterhousecoopers"
+    - "ernst & young"
+    - "ey"
+    - "kpmg"
+    - "accenture"
+    - "ibm consulting"
+    - "capgemini"
+    - "oliver wyman"
+    - "roland berger"
+    - "a.t. kearney"
+    - "booz allen"
+    - "strategy&"
+    
+  # High-value keywords (increase relevance score)
+  high_value_keywords:
+    - "ceo"
+    - "managing partner"
+    - "partner"
+    - "principal"
+    - "acquisition"
+    - "merger"
+    - "expansion"
+    - "contract"
+    - "appointment"
+    - "promotion"
+    - "hire"
+    - "joins"
+
