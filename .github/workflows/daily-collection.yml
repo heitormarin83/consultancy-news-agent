@@ -78,7 +78,7 @@ jobs:
           if [ "$HTTP_STATUS" -eq 200 ]; then
             echo "✅ Collection completed successfully via Railway"
             
-            # Extract statistics from response
+            # Extract statistics from response - FIXED INDENTATION
             TOTAL_ARTICLES=$(echo "$RESPONSE_BODY" | python3 -c "
 import sys, json
 try:
@@ -86,7 +86,7 @@ try:
     print(data.get('total_articles', 0))
 except:
     print(0)
-            ")
+")
             
             RELEVANT_ARTICLES=$(echo "$RESPONSE_BODY" | python3 -c "
 import sys, json
@@ -95,7 +95,7 @@ try:
     print(data.get('relevant_articles', 0))
 except:
     print(0)
-            ")
+")
             
             echo "total_articles=$TOTAL_ARTICLES" >> $GITHUB_OUTPUT
             echo "relevant_articles=$RELEVANT_ARTICLES" >> $GITHUB_OUTPUT
