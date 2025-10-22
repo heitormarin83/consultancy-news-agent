@@ -44,5 +44,7 @@ jsonschema==4.20.0
 # - pathlib2 (Python 3.11 has native pathlib)
 # - typing-extensions (Python 3.11 has native typing)
 
-# EMAIL: Using external webhook service (no SMTP dependencies needed)
+# EMAIL & SCHEDULING
+resend==0.7.0
+schedule==1.2.0
 
