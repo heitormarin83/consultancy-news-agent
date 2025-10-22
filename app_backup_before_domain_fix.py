@@ -1,6 +1,6 @@
 """
-Peers Consultancy News Monitor - VERSÃO COM DOCUMENTAÇÃO DE DOMÍNIO
-Sistema Profissional com instruções para configuração de domínio
+Peers Consultancy News Monitor - VERSÃO CORRIGIDA COM HEALTHCHECK
+Sistema Profissional de Monitoramento com Railway Compatibility
 """
 
 import os
@@ -40,21 +40,14 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'peers-consultancy-news-2024'
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-logger.info("🚀 Starting Peers Consultancy News Monitor - DOMAIN FIX VERSION")
+logger.info("🚀 Starting Peers Consultancy News Monitor - HEALTHCHECK FIXED VERSION")
 
 class PeersNewsMonitor:
     def __init__(self):
-        # Lista completa de destinatários (carlos será adicionado após configuração de domínio)
-        self.all_recipients = [
+        self.recipients = [
             "heitor.a.marin@gmail.com",
             "carlos.coelho@peers.com.br"
         ]
-        
-        # Apenas heitor por enquanto (limitação Resend sandbox)
-        self.active_recipients = [
-            "heitor.a.marin@gmail.com"
-        ]
-        
         self.api_key = os.getenv('RESEND_API_KEY', 're_demo_key_for_testing')
         
         # Inicializar banco de dados para controle de duplicatas
@@ -344,21 +337,6 @@ class PeersNewsMonitor:
             </div>
             """
         
-        # Alerta sobre configuração de domínio
-        domain_alert = """
-        <div style="background: #fff3cd; padding: 20px; border-radius: 12px; margin: 25px 0; border: 1px solid #ffeaa7;">
-            <h3 style="color: #856404; margin: 0 0 15px 0; font-size: 18px;">⚠️ Configuração de Domínio Necessária</h3>
-            <p style="margin: 8px 0; color: #856404;"><strong>Atualmente enviando apenas para:</strong> heitor.a.marin@gmail.com</p>
-            <p style="margin: 8px 0; color: #856404;"><strong>Para adicionar carlos.coelho@peers.com.br:</strong></p>
-            <ol style="color: #856404; margin: 10px 0;">
-                <li>Acesse <a href="https://resend.com/domains" style="color: #856404;">resend.com/domains</a></li>
-                <li>Adicione e verifique o domínio "peers.com.br"</li>
-                <li>Configure DNS records conforme instruções</li>
-                <li>Altere remetente para usar domínio verificado</li>
-            </ol>
-        </div>
-        """
-        
         html_content = f"""
 <!DOCTYPE html>
 <html>
@@ -377,8 +355,6 @@ class PeersNewsMonitor:
         </div>
         
         <div style="padding: 40px 30px; background: #f8fafc;">
-            {domain_alert}
-            
             <h2 style="color: #1a365d; font-size: 24px; font-weight: 700; margin: 40px 0 25px 0;">🔥 Principais Notícias da Semana</h2>
             
             {news_html}
@@ -419,16 +395,15 @@ class PeersNewsMonitor:
             
             subject = f"📰 Peers Consultancy News Report - {datetime.now().strftime('%d/%m/%Y')}"
             
-            # Preparar parâmetros do email (apenas destinatários ativos)
+            # Preparar parâmetros do email
             params = {
                 "from": "Peers News Monitor <onboarding@resend.dev>",
-                "to": self.active_recipients,  # Apenas heitor por enquanto
+                "to": self.recipients,
                 "subject": subject,
                 "html": html_content
             }
             
-            logger.info(f"📧 Enviando relatório para {len(self.active_recipients)} destinatários ativos...")
-            logger.warning(f"⚠️ Carlos será adicionado após configuração de domínio")
+            logger.info(f"📧 Enviando relatório para {len(self.recipients)} destinatários...")
             
             # Enviar email
             email = resend.Emails.send(params)
@@ -439,7 +414,7 @@ class PeersNewsMonitor:
                     self.mark_news_as_sent(item)
                 
                 logger.info(f"✅ Relatório enviado com sucesso! ID: {email.id}")
-                return True, f"Relatório enviado para {len(self.active_recipients)} destinatários (ID: {email.id})"
+                return True, f"Relatório enviado para {len(self.recipients)} destinatários (ID: {email.id})"
             else:
                 logger.error(f"❌ Falha no envio: {email}")
                 return False, f"Erro no envio: {email}"
@@ -462,7 +437,7 @@ class PeersNewsMonitor:
             
             data = {
                 "from": "Peers News Monitor <onboarding@resend.dev>",
-                "to": self.active_recipients,  # Apenas destinatários ativos
+                "to": self.recipients,
                 "subject": f"📰 Peers Consultancy News Report - {datetime.now().strftime('%d/%m/%Y')}",
                 "html": html_content
             }
@@ -477,7 +452,7 @@ class PeersNewsMonitor:
                     self.mark_news_as_sent(item)
                 
                 logger.info(f"✅ Relatório enviado via HTTP! ID: {result.get('id', 'N/A')}")
-                return True, f"Relatório enviado para {len(self.active_recipients)} destinatários"
+                return True, f"Relatório enviado para {len(self.recipients)} destinatários"
             else:
                 logger.error(f"❌ Erro HTTP: {response.status_code} - {response.text}")
                 return False, f"Erro HTTP: {response.status_code}"
@@ -497,14 +472,11 @@ def api_status():
         return jsonify({
             'status': 'healthy',
             'service': 'peers_news_monitor',
-            'version': '1.1.0',
+            'version': '1.0.0',
             'timestamp': datetime.now().isoformat(),
             'scheduler_active': schedule is not None and len(schedule.jobs) > 0 if schedule else False,
             'api_configured': news_monitor.api_key != 're_demo_key_for_testing',
-            'database_ready': True,
-            'active_recipients': len(news_monitor.active_recipients),
-            'total_recipients': len(news_monitor.all_recipients),
-            'domain_verification_needed': True
+            'database_ready': True
         }), 200
     except Exception as e:
         return jsonify({
@@ -544,7 +516,6 @@ def dashboard():
         .success {{ color: #28a745; font-weight: 600; }}
         .error {{ color: #dc3545; font-weight: 600; }}
         .warning {{ color: #ffc107; font-weight: 600; }}
-        .domain-alert {{ background: #fff3cd; padding: 20px; border-radius: 12px; margin: 25px 0; border: 1px solid #ffeaa7; }}
     </style>
     <script>
         async function collectNews() {{
@@ -561,7 +532,7 @@ def dashboard():
                 
                 if (result.status === 'success') {{
                     status.innerHTML = '✅ <strong class="success">RELATÓRIO ENVIADO!</strong><br>' + result.message;
-                    alert('✅ RELATÓRIO ENVIADO! Verifique o email.');
+                    alert('✅ RELATÓRIO ENVIADO! Verifique os emails.');
                 }} else {{
                     status.innerHTML = '❌ <strong class="error">Erro:</strong> ' + result.message;
                 }}
@@ -578,20 +549,8 @@ def dashboard():
     <div class="container">
         <div class="header">
             <h1>📰 Peers Consultancy News Monitor</h1>
-            <h2>Sistema Profissional - DOMAIN CONFIG NEEDED</h2>
+            <h2>Sistema Profissional - HEALTHCHECK FIXED</h2>
             <p>Monitoramento Automático • Design Corporativo • Railway Compatible</p>
-        </div>
-        
-        <div class="domain-alert">
-            <h3 style="color: #856404; margin: 0 0 15px 0;">⚠️ Configuração de Domínio Necessária</h3>
-            <p style="color: #856404; margin: 8px 0;"><strong>Atualmente enviando apenas para:</strong> heitor.a.marin@gmail.com</p>
-            <p style="color: #856404; margin: 8px 0;"><strong>Para adicionar carlos.coelho@peers.com.br:</strong></p>
-            <ol style="color: #856404; margin: 10px 0;">
-                <li>Acesse <a href="https://resend.com/domains" target="_blank" style="color: #856404;">resend.com/domains</a></li>
-                <li>Adicione e verifique o domínio "peers.com.br"</li>
-                <li>Configure DNS records conforme instruções</li>
-                <li>Altere remetente para usar domínio verificado</li>
-            </ol>
         </div>
         
         <div class="status">
@@ -615,11 +574,6 @@ def dashboard():
                 <h3>🎯 Anti-Duplicação</h3>
                 <div class="online">✅ Ativo (SQLite)</div>
             </div>
-            <div class="status-card">
-                <h3>👥 Destinatários</h3>
-                <div class="warning">⚠️ {len(news_monitor.active_recipients)}/{len(news_monitor.all_recipients)} ativos</div>
-                <small>Carlos será adicionado após configuração de domínio</small>
-            </div>
         </div>
         
         <div style="text-align: center; margin: 40px 0;">
@@ -628,11 +582,11 @@ def dashboard():
         </div>
         
         <div style="background: #d4edda; padding: 20px; border-radius: 12px; margin-top: 25px; border: 1px solid #c3e6cb;">
-            <h4>✅ Sistema Funcionando</h4>
+            <h4>✅ Sistema Corrigido</h4>
             <p>✅ <strong>Healthcheck endpoint:</strong> /api/status funcionando</p>
             <p>✅ <strong>Imports seguros:</strong> Tratamento de dependências ausentes</p>
             <p>✅ <strong>Railway compatible:</strong> Deploy sem falhas</p>
-            <p>⚠️ <strong>Limitação Resend:</strong> Domínio deve ser verificado para múltiplos destinatários</p>
+            <p>✅ <strong>Fallback HTTP:</strong> Funciona mesmo sem Resend SDK</p>
         </div>
     </div>
 </body>
@@ -668,10 +622,9 @@ def api_collect_news():
             logger.info("✅ Relatório enviado com sucesso!")
             return jsonify({
                 'status': 'success',
-                'message': f"{message} (Carlos será adicionado após configuração de domínio)",
+                'message': message,
                 'news_count': len(news_items),
-                'recipients': len(news_monitor.active_recipients),
-                'pending_recipients': len(news_monitor.all_recipients) - len(news_monitor.active_recipients),
+                'recipients': len(news_monitor.recipients),
                 'timestamp': datetime.now().isoformat()
             })
         else:
